@@ -2,7 +2,7 @@
 
 namespace App\Containers\AppSection\User\Tasks;
 
-use App\Containers\AppSection\User\Data\Repositories\UserRepository;
+use App\Containers\AppSection\User\Data\Repositories\EloquentUserRepository;
 use App\Ship\Exceptions\DeleteResourceFailedException;
 use App\Ship\Exceptions\NotFoundException;
 use App\Ship\Parents\Tasks\Task as ParentTask;
@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 class DeleteUserTask extends ParentTask
 {
     public function __construct(
-        protected UserRepository $repository
+        protected EloquentUserRepository $repository
     ) {
     }
 

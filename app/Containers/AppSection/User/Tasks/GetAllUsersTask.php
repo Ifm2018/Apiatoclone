@@ -3,14 +3,14 @@
 namespace App\Containers\AppSection\User\Tasks;
 
 use Apiato\Core\Exceptions\CoreInternalErrorException;
-use App\Containers\AppSection\User\Data\Repositories\UserRepository;
+use App\Containers\AppSection\User\Data\Repositories\EloquentUserRepository;
 use App\Ship\Parents\Tasks\Task as ParentTask;
 use Prettus\Repository\Exceptions\RepositoryException;
 
 class GetAllUsersTask extends ParentTask
 {
     public function __construct(
-        protected UserRepository $repository
+        protected EloquentUserRepository $repository
     ) {
     }
 

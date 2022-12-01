@@ -4,6 +4,7 @@ namespace App\Containers\AppSection\User\UI\API\Transformers;
 
 use App\Containers\AppSection\Authorization\UI\API\Transformers\PermissionTransformer;
 use App\Containers\AppSection\Authorization\UI\API\Transformers\RoleTransformer;
+use App\Containers\AppSection\User\Data\DTO\UserDTO;
 use App\Containers\AppSection\User\Models\User;
 use App\Ship\Parents\Transformers\Transformer as ParentTransformer;
 use League\Fractal\Resource\Collection;
@@ -19,7 +20,7 @@ class UserTransformer extends ParentTransformer
 
     ];
 
-    public function transform(User $user): array
+    public function transform(UserDTO $user): array
     {
         $response = [
             'object' => $user->getResourceKey(),

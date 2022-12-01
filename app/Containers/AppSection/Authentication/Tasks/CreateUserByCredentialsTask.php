@@ -2,12 +2,11 @@
 
 namespace App\Containers\AppSection\Authentication\Tasks;
 
-use App\Containers\AppSection\User\Data\Repositories\UserRepository;
+use App\Containers\AppSection\User\Contracts\UserRepository;
 use App\Containers\AppSection\User\Models\User;
 use App\Ship\Exceptions\CreateResourceFailedException;
 use App\Ship\Parents\Tasks\Task as ParentTask;
 use Exception;
-use Illuminate\Support\Facades\Hash;
 
 class CreateUserByCredentialsTask extends ParentTask
 {
@@ -17,18 +16,16 @@ class CreateUserByCredentialsTask extends ParentTask
     }
 
     /**
+     * @param array $data
+     * @return User
      * @throws CreateResourceFailedException
      */
     public function run(array $data): User
     {
-        $data['password'] = Hash::make($data['password']);
-
         try {
-            $user = $this->repository->create($data);
+            return $this->repository->createUserByCredentials($data);
         } catch (Exception) {
             throw new CreateResourceFailedException();
         }
-
-        return $user;
     }
 }

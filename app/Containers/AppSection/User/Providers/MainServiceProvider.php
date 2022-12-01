@@ -2,6 +2,8 @@
 
 namespace App\Containers\AppSection\User\Providers;
 
+use App\Containers\AppSection\User\Contracts\UserRepository;
+use App\Containers\AppSection\User\Data\Repositories\EloquentUserRepository;
 use App\Ship\Parents\Providers\MainServiceProvider as ParentMainServiceProvider;
 
 /**
@@ -33,7 +35,6 @@ class MainServiceProvider extends ParentMainServiceProvider
     {
         parent::register();
 
-        // do your binding here..
-        // $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
+        $this->app->bind(UserRepository::class, EloquentUserRepository::class);
     }
 }

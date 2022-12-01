@@ -2,8 +2,8 @@
 
 namespace App\Containers\AppSection\User\Tasks;
 
-use App\Containers\AppSection\User\Data\Repositories\UserRepository;
-use App\Containers\AppSection\User\Models\User;
+use App\Containers\AppSection\User\Data\Repositories\EloquentUserRepository;
+use App\Containers\AppSection\User\Data\DTO\UserDTO;
 use App\Ship\Exceptions\NotFoundException;
 use App\Ship\Exceptions\UpdateResourceFailedException;
 use App\Ship\Parents\Tasks\Task as ParentTask;
@@ -14,25 +14,26 @@ use Illuminate\Support\Facades\Hash;
 class UpdateUserTask extends ParentTask
 {
     public function __construct(
-        protected UserRepository $repository
+        protected EloquentUserRepository $repository
     ) {
     }
 
     /**
-     * @param array $userData
-     * @param $userId
-     * @return User
+     * @param UserDTO $userData
+     * @return UserDTO
      * @throws NotFoundException
      * @throws UpdateResourceFailedException
      */
-    public function run(array $userData, $userId): User
+    public function run(UserDTO $userData): UserDTO
     {
         try {
-            if (array_key_exists('password', $userData)) {
-                $userData['password'] = Hash::make($userData['password']);
+            if (is_string($userData->password)) {
+                $userData->additional([
+                    'password' => Hash::make($userData->password),
+                ]);
             }
 
-            return $this->repository->update($userData, $userId);
+            return UserDTO::from($this->repository->update($userData->toArray(), $userData->id));
         } catch (ModelNotFoundException) {
             throw new NotFoundException();
         } catch (Exception) {
